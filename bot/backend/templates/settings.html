@@ -1,0 +1,45 @@
+<!-- backend/templates/settings.html -->
+{% extends 'base.html' %}
+{% block title %}机器人设置{% endblock %}
+{% block content %}
+<h1 class="mb-4">机器人设置</h1>
+
+<form method="post" action="{{ url_for('settings') }}">
+    <!-- 欢迎语卡片 -->
+    <div class="card mb-4"><div class="card-header"><h4><i class="bi bi-chat-left-text-fill"></i> 欢迎与交互</h4></div>
+        <div class="card-body"><div class="mb-3">
+            <label for="welcome_message" class="form-label"><h5>新用户欢迎语</h5></label>
+            <textarea class="form-control" id="welcome_message" name="welcome_message" rows="4" required>{{ settings.welcome_message or '' }}</textarea>
+        </div></div>
+    </div>
+    <!-- 邀请奖励卡片 -->
+    <div class="card mb-4"><div class="card-header"><h4><i class="bi bi-person-plus-fill"></i> 邀请奖励功能</h4></div>
+        <div class="card-body">
+            <label for="referral_reward_points" class="form-label"><h5>邀请奖励积分</h5></label>
+            <div class="input-group" style="max-width: 200px;"><input type="number" class="form-control" id="referral_reward_points" name="referral_reward_points" value="{{ settings.referral_reward_points or '1' }}" step="0.1" required><span class="input-group-text">分</span></div>
+        </div>
+    </div>
+    <!-- [新增] 签到功能卡片 -->
+    <div class="card mb-4"><div class="card-header"><h4><i class="bi bi-calendar-check-fill"></i> 每日签到功能</h4></div>
+        <div class="card-body">
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="checkin_enabled" name="checkin_enabled" value="1" {% if settings.checkin_enabled == '1' %}checked{% endif %}>
+                <label class="form-check-label" for="checkin_enabled"><h5>启用每日签到功能</h5></label>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><label for="checkin_reward_min" class="form-label"><h5>随机奖励范围 (最小值)</h5></label><input type="number" class="form-control" id="checkin_reward_min" name="checkin_reward_min" value="{{ settings.checkin_reward_min or '1' }}" step="0.1" required></div>
+                <div class="col-md-6"><label for="checkin_reward_max" class="form-label"><h5>随机奖励范围 (最大值)</h5></label><input type="number" class="form-control" id="checkin_reward_max" name="checkin_reward_max" value="{{ settings.checkin_reward_max or '5' }}" step="0.1" required></div>
+            </div>
+        </div>
+    </div>
+    <!-- 强制加入卡片 -->
+    <div class="card mb-4"><div class="card-header"><h4><i class="bi bi-door-open-fill"></i> 强制加入群组/频道</h4></div>
+        <div class="card-body">
+            <div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" role="switch" id="force_join_enabled" name="force_join_enabled" value="1" {% if settings.force_join_enabled == '1' %}checked{% endif %}><label class="form-check-label" for="force_join_enabled"><h5>启用强制加入功能</h5></label></div>
+            <div class="mb-3"><label for="force_join_chat_id" class="form-label"><h5>群组或频道ID</h5></label><input type="text" class="form-control" id="force_join_chat_id" name="force_join_chat_id" value="{{ settings.force_join_chat_id or '' }}" placeholder="@yourchannel or -100..."></div>
+            <div class="mb-3"><label for="force_join_invite_link" class="form-label"><h5>邀请链接 (推荐填写)</h5></label><input type="text" class="form-control" id="force_join_invite_link" name="force_join_invite_link" value="{{ settings.force_join_invite_link or '' }}" placeholder="https://t.me/joinchat/..."></div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">保存所有设置</button>
+</form>
+{% endblock %}

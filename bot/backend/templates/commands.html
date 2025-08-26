@@ -1,0 +1,99 @@
+<!-- backend/templates/commands.html -->
+{% extends 'base.html' %}
+{% block title %}指令管理{% endblock %}
+{% block content %}
+<h1 class="mb-4">指令管理</h1>
+<p class="text-muted">修改、禁用或删除指令后，机器人会自动应用。但添加新指令后，需要 <a href="{{ url_for('dashboard') }}">返回仪表盘</a> 点击“重启机器人”按钮才能生效。</p>
+
+<!-- 添加新指令 -->
+<div class="accordion mb-4" id="addCommandAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"><strong><i class="bi bi-plus-circle-fill"></i> 添加新指令</strong></button></h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#addCommandAccordion">
+            <div class="accordion-body">
+                <form action="{{ url_for('add_command') }}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">指令类型</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="command_type" id="type_script" value="script" checked onchange="toggleInputs()">
+                                <label class="form-check-label" for="type_script">执行脚本</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="command_type" id="type_reply" value="reply" onchange="toggleInputs()">
+                                <label class="form-check-label" for="type_reply">文本回复</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3"><label class="form-label">指令名 (不带 /)</label><input type="text" name="name" class="form-control" required></div>
+                        <div class="col-md-2"><label class="form-label">消耗积分</label><input type="number" name="cost" class="form-control" step="0.1" required value="1"></div>
+                        <div id="script_inputs" class="row g-3 col-12 m-0 p-0">
+                            <div class="col-md-7"><label class="form-label">脚本绝对路径</label><input type="text" name="script_path" class="form-control" placeholder="/root/my_new_bot/scripts/script.py"></div>
+                            <div class="col-md-5"><label class="form-label">参数提示</label><input type="text" name="placeholder" class="form-control"></div>
+                        </div>
+                        <div id="reply_inputs" class="col-12 d-none">
+                            <label class="form-label">回复内容 (支持 MarkdownV2)</label>
+                            <textarea name="reply_text" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="col-12"><button type="submit" class="btn btn-primary">确认添加</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 指令列表 -->
+<div class="card"><div class="card-header">现有指令列表</div>
+    <div class="card-body"><div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light"><tr><th>状态</th><th>指令</th><th>类型</th><th>消耗积分</th><th>详情</th><th class="text-center">操作</th></tr></thead>
+            <tbody>
+                {% for cmd in commands %}
+                <tr><form action="{{ url_for('update_command') }}" method="post">
+                    <input type="hidden" name="original_name" value="{{ cmd.name }}">
+                    <input type="hidden" name="command_type" value="{{ cmd.command_type }}">
+                    <td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" name="is_enabled" {% if cmd.is_enabled %}checked{% endif %}></div></td>
+                    <td><strong>/{{ cmd.name }}</strong></td>
+                    <td><span class="badge bg-{{ 'primary' if cmd.command_type == 'script' else 'secondary' }}">{{ cmd.command_type }}</span></td>
+                    <td><input type="number" name="cost" value="{{ cmd.cost }}" class="form-control form-control-sm" style="width: 80px;" step="0.1"></td>
+                    <td>
+                        {% if cmd.command_type == 'script' %}
+                        <input type="text" name="script_path" value="{{ cmd.script_path or '' }}" class="form-control form-control-sm mb-1" placeholder="脚本路径">
+                        <input type="text" name="placeholder" value="{{ cmd.placeholder or '' }}" class="form-control form-control-sm" placeholder="参数提示">
+                        {% else %}
+                        <textarea name="reply_text" class="form-control form-control-sm" rows="2" placeholder="回复内容">{{ cmd.reply_text or '' }}</textarea>
+                        {% endif %}
+                    </td>
+                    <td class="text-center"><div class="btn-group">
+                        <button type="submit" class="btn btn-sm btn-success">更新</button>
+                        </form>
+                        <form action="{{ url_for('delete_command', name=cmd.name) }}" method="post" onsubmit="return confirm('确定删除 /{{ cmd.name }} 指令吗？');"><button type="submit" class="btn btn-sm btn-danger">删除</button></form>
+                    </div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleInputs() {
+        const type = document.querySelector('input[name="command_type"]:checked').value;
+        const scriptInputs = document.getElementById('script_inputs');
+        const replyInputs = document.getElementById('reply_inputs');
+        if (type === 'script') {
+            scriptInputs.classList.remove('d-none');
+            replyInputs.classList.add('d-none');
+        } else {
+            scriptInputs.classList.add('d-none');
+            replyInputs.classList.remove('d-none');
+        }
+    }
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', toggleInputs);
+</script>
+{% endblock %}

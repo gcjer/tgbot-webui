@@ -1,0 +1,20 @@
+<!-- 文件路径: /root/frbot/backend/templates/broadcast.html -->
+
+{% extends 'base.html' %}
+{% block title %}广播消息{% endblock %}
+{% block content %}
+<h1 class="mb-4">广播消息</h1>
+<p>向所有机器人用户发送一条消息。</p>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            <div class="mb-3">
+                <label for="message" class="form-label">消息内容 (机器人支持的格式, 如Markdown)</label>
+                <textarea class="form-control" id="message" name="message" rows="6" required placeholder="在此输入您想发送给所有用户的消息..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('确定要向所有用户发送这条消息吗？');">立即发送广播</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
