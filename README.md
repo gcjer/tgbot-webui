@@ -1,5 +1,11 @@
 ## 全部内容均由AI(Gemini)编写
 
+<img width="2560" height="1319" alt="image" src="https://github.com/user-attachments/assets/4aa86dce-097a-4618-87d7-bb67f881c301" />
+<img width="2521" height="1315" alt="image" src="https://github.com/user-attachments/assets/e087a6c8-7a7d-43d0-8aa5-3c6885dfa6db" />
+<img width="2521" height="1315" alt="image" src="https://github.com/user-attachments/assets/9fbab8c2-d965-4927-a253-c6cca0fc6669" />
+<img width="2550" height="1286" alt="image" src="https://github.com/user-attachments/assets/62e94ed9-66b6-4220-97e0-5bbf24ff87a6" />
+
+
 ## ✨ 核心功能
 
 *   **强大的 Web 管理后台**:
