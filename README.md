@@ -76,6 +76,7 @@ sudo yum install python3-pip git supervisor -y
 ### 2. 克隆项目
 将本项目克隆到你的服务器。
 ```bash
+git clone https://github.com/gcjer/tgbot-webui.git
 cd /root/bot
 ```
 
