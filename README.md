@@ -1,3 +1,5 @@
+## 全部内容均由AI(Gemini)编写
+
 ## ✨ 核心功能
 
 *   **强大的 Web 管理后台**:
@@ -144,7 +146,7 @@ sudo supervisorctl start bot backend
 2.  登录后台，进入“指令管理”页面，点击“添加新指令”。
 3.  选择指令类型为“执行脚本”。
 4.  **指令名**: 填 `myscript` (无需 `/`)。
-5.  **脚本绝对路径**: 填 `/root/my_new_bot/scripts/my_script.py`。
+5.  **脚本绝对路径**: 填 `/root/bot/scripts/my_script.py`。
 6.  填写其他信息（如消耗积分、参数提示）后，点击“确认添加”。
 7.  返回“仪表盘”页面，点击“重启机器人”。几秒后，新指令 `/myscript` 就可以使用了！
 
