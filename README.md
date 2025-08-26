@@ -113,7 +113,7 @@ sudo ln -s /root/bot/supervisor_configs/backend.conf /etc/supervisor/conf.d/back
 ```bash
 sudo supervisorctl reread
 sudo supervisorctl update
-sudo supervisorctl start bot backend```
+sudo supervisorctl start bot backend
 
 ### 8. 验证
 *   **检查服务状态**: `sudo supervisorctl status`。你应该能看到 `bot` 和 `backend` 都处于 `RUNNING` 状态。
