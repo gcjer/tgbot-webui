@@ -95,8 +95,31 @@ def settings():
 @app.route('/users')
 @login_required
 def list_users():
-    conn = get_db_connection(); users = conn.execute('SELECT * FROM users ORDER BY join_date DESC').fetchall(); conn.close()
-    return render_template('users.html', users=users)
+    per_page = 20  # 每页显示的用户数量
+    page = request.args.get('page', 1, type=int) # 从URL参数获取页码，默认为1
+    offset = (page - 1) * per_page
+
+    conn = get_db_connection()
+
+    users = conn.execute(
+        'SELECT * FROM users ORDER BY join_date DESC LIMIT ? OFFSET ?',
+        (per_page, offset)
+    ).fetchall()
+
+    # 获取总用户数量
+    total_users = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
+    conn.close()
+
+    total_pages = (total_users + per_page - 1) // per_page # 计算总页数
+
+    return render_template(
+        'users.html',
+        users=users,
+        page=page,
+        total_pages=total_pages,
+        per_page=per_page,
+        total_users=total_users
+    )
 @app.route('/commands')
 @login_required
 def list_commands():
