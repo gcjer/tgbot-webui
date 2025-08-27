@@ -162,8 +162,9 @@ def delete_user(user_id):
 def add_command():
     try:
         conn = get_db_connection(); form = request.form
-        conn.execute('INSERT INTO commands (name, cost, command_type, script_path, placeholder, reply_text) VALUES (?, ?, ?, ?, ?, ?)', (form['name'].lower().strip(), float(form['cost']), form['command_type'], form.get('script_path', '').strip(), form.get('placeholder', ''), form.get('reply_text', ''))); conn.commit(); conn.close()
-        flash(f"指令 `/{form['name']}` 添加成功! 请重启机器人使新指令生效。", 'success')
+        command_name = form['name'].lower().strip().lstrip('/')
+        conn.execute('INSERT INTO commands (name, cost, command_type, script_path, placeholder, reply_text) VALUES (?, ?, ?, ?, ?, ?)', (command_name, float(form['cost']), form['command_type'], form.get('script_path', '').strip(), form.get('placeholder', ''), form.get('reply_text', ''))); conn.commit(); conn.close()
+        flash(f"指令 `/{command_name}` 添加成功! 请重启机器人使新指令生效。", 'success')
     except Exception as e: flash(f'添加失败: {e}', 'danger')
     return redirect(url_for('list_commands'))
 @app.route('/update_command', methods=['POST'])
