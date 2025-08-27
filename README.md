@@ -1,5 +1,7 @@
 ## 全部内容均由AI(Gemini)编写
 
+2025.08.27 【增加充值功能 波场链 后台可设置地址和充值比例 1U=10积分】
+
 <img width="2560" height="1319" alt="image" src="https://github.com/user-attachments/assets/4aa86dce-097a-4618-87d7-bb67f881c301" />
 <img width="2521" height="1315" alt="image" src="https://github.com/user-attachments/assets/e087a6c8-7a7d-43d0-8aa5-3c6885dfa6db" />
 <img width="2532" height="1293" alt="image" src="https://github.com/user-attachments/assets/4ad10e39-808b-43a0-ab82-725269dd2f6c" />
