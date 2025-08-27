@@ -53,7 +53,7 @@ def dashboard():
     }
     leaderboards = {
         'points': conn.execute("SELECT join_name, points FROM users WHERE join_name IS NOT NULL ORDER BY points DESC LIMIT 10").fetchall(),
-        'referrals': conn.execute("SELECT u.join_name, COUNT(r.user_id) as c FROM users u JOIN users r ON u.user_id = r.referred_by WHERE u.join_name IS NOT NULL GROUP BY u.user_id ORDER BY c DESC LIMIT 10").fetchall()
+        'referrals': conn.execute("SELECT u.join_name, COUNT(r.user_id) as referral_count FROM users u JOIN users r ON u.user_id = r.referred_by WHERE u.join_name IS NOT NULL GROUP BY u.user_id ORDER BY referral_count DESC LIMIT 10").fetchall()
     }
     bot_status = "UNKNOWN"
     try:
